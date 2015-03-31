@@ -1,0 +1,24 @@
+{% load bootstrap3 %}
+{% load crud_tags %}
+
+{% if value == "ICON:OK" %}
+	{% bootstrap_icon "ok" %}
+
+{% elif value == "ICON:REMOVE" %}
+	{% bootstrap_icon "remove" %}
+
+{% elif value|is_sequence %}
+	<table class="table table-striped table-bordered table-condensed text-center small">
+	    {% for row in value %}
+		    <tr>
+		        {% for col in row %}
+	        		<td>{% include value_widget with value=col %}</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</table>
+	
+{% else %}
+	{{ value }}
+
+{% endif %}

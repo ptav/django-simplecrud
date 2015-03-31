@@ -1,0 +1,26 @@
+{% load bootstrap3 %}
+{% load crud_tags %}
+
+{% comment %}
+	Display URL links
+	
+	Parameters:
+		links	A sequence of dicts with: name,url,[arg]
+		arg		A default argument to pass to the url link if the dict above doesn't provide it	
+
+{% endcomment %}
+
+<ul class="nav nav-pills">
+	{% for lnk in links %}
+		<li>
+			{% if lnk.arg %}
+				<a href="{% url lnk.url lnk.arg %}" {% if lnk.class %}class="{{ lnk.class }}"{% endif %}>{{ lnk.label }}</a>
+			{% elif arg %}
+				<a href="{% url lnk.url arg %}" {% if lnk.class %}class="{{ lnk.class }}"{% endif %}>{{ lnk.label }}</a>
+			{% else %}
+				<a href="{% url lnk.url %}" {% if lnk.class %}class="{{ lnk.class }}"{% endif %}>{{ lnk.label }}</a>
+			{% endif %}
+		</li>
+	{% endfor %}
+</ul>
+

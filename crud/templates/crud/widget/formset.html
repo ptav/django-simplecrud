@@ -1,0 +1,72 @@
+{% load bootstrap3 %}
+
+{% comment %}
+	Display formset
+	
+	Parameters:
+		attributes.class		Form class. Default is 'form'
+
+		attributes.text 		Display a paragraph of text (usually instructions and help)
+		
+		attributes.links		Display link buttons above list. Sequence of sequences with 
+								(name,url,[arg0,arg1,...])
+		
+{% endcomment %}
+
+
+{% if attributes.text %}
+	{% include "crud/text_widget.html" with text=attributes.text %}
+{% endif %}
+
+{% if attributes.links %}
+	{% include "crud/links_widget.html" with links=attributes.links %}
+{% endif %}
+
+
+<form method="post" class="{% if attributes.class %}{{ attributes.class }}{% else %}form{% endif %}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+
+    <table class="table table-striped">
+    	<thead>
+    		<tr>
+                {% for field in formset.forms.0 %}
+	                {% if not field.is_hidden %}<th>{{ field.label	 }}</th>{% endif %}
+				{% endfor %}
+				            	
+            	{% if attributes.delete_url %}<th></th>{% endif %}
+            </tr>
+        </thead>
+		
+		<tbody>
+        	{% for row in formset %}
+                {% if form_show_errors and not row.is_extra %}
+    				{% bootstrap_form_errors form type='non_fields' %}
+                {% endif %}
+
+	        	<tr>
+	            	{% for field in row %}
+	            		{% if field.is_hidden %}
+    						{{ field }}
+    					{% else %}
+			                <th>{% bootstrap_field field layout='inline' %}</th>
+			            {% endif %}
+					{% endfor %}
+					
+					{% if row.id.value > 0 %}
+	                    {% if attributes.delete_url %}
+	                        <td><a href="{% url attributes.delete_url row.id.value %}" class="btn btn-sm btn-danger">{% bootstrap_icon "remove" %}</a></td>
+	                    {% endif %}
+	                {% else %}
+		            	{% if attributes.delete_url %}<td></td>{% endif %}
+					{% endif %}
+                <tr>
+            {% endfor %}
+		</tbody>
+	</table>            
+
+	<button type="submit" class="btn btn-primary">Save</button>
+	<input type="button" value="Cancel" onclick="history.back(-1)" class="btn btn-default" />
+
+</form>
+

@@ -1,0 +1,48 @@
+{% extends 'bootstrap3/bootstrap3.html' %}
+{% load bootstrap3 %}
+
+{% load bootstrap3 %}
+
+{% block bootstrap3_extra_script %}
+	<!-- Fix Bootstrap3 'bug' with fixed-top navbars
+		 Source: stackoverflow.com/questions/11124777/twitter-bootstrap-navbar-fixed-top-overlapping-site
+	-->
+	<script>
+	    $(document).ready(function(){
+	        $(document.body).css('padding-top', $('#topnavbar-collapse').height() + 10);
+	        $(window).resize(function(){
+	            $(document.body).css('padding-top', $('#topnavbar-collapse').height() + 10);
+	        });
+	    });
+	</script>
+{% endblock %}
+
+
+{% block bootstrap3_title %}{% block title %}{% endblock %}{% endblock %}
+
+{% block bootstrap3_content %}
+
+	{% if header_template %}
+		{% include header_template %}	
+	{% else %}
+		{% include 'crud/header.html' %}	
+	{% endif %}
+	
+    <div class="container">
+
+		<noscript>
+			This page requires Javascript to look its best. PLease enable it in your browser.<br> 
+			<a href="{% url 'contact_us' %}">Contact us</a> if you'd like more information.
+		</noscript>
+	
+		{% block content %}{% endblock %}
+
+	</div>
+	
+	{% if header_template %}
+		{% include header_template %}	
+	{% else %}
+		{% include 'crud/footer.html' %}
+	{% endif %}
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'crud/base.html' %}
+{% load bootstrap3 %}
+
+{% comment %}
+	Top level widgets container
+	
+	Parameters:
+		base_template		The container extends the base_template, which typically contains 
+							HTML scafolding, headers and footers common to all pages. Defaults
+							to crud/base.html
+		
+		template_title		Page title
+		
+		template_subtitle	Page subtitle (only shown if title is valid)
+		
+		widget				Widget to include
+		
+		class				Class that wrapps the widget (default is empty])
+		
+{% endcomment %}
+
+
+{% block title %}{{ template_title }}{% endblock %}
+
+{% block content %}
+	{% bootstrap_messages %}
+
+	{% if template_title %}
+		<div class="page-header">
+			<h1>
+				{{ template_title }}
+				<br>
+				{% if template_subtitle %}
+					<small>{{ template_subtitle }}</small>
+				{% endif %}
+			</h1>
+		</div>
+	{% endif %}
+
+	<div class="{% if class %}{{ class }}{% endif %}">
+	    {% include widget %}
+	</div>
+
+{% endblock %}
+

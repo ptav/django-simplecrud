@@ -1,0 +1,77 @@
+{% load bootstrap3 %}
+{% load crud_tags %}
+
+{% comment %}
+	Render object list as a table, plus optional description text and links bar
+	
+	Parameters:
+		object_list				Collection of objects to list (for example a queryset or list)
+		
+		value_widget			Widget to use for displaying values
+		
+		attributes.class		Table class. Default is "table table-striped table-condensed text-center"
+
+		attributes.text 		Display a paragraph of text (usually instructions and help)
+		
+		attributes.links		Display link buttons above list. Sequence of sequences with 
+								(name,url,[arg0,arg1,...])
+		
+		attributes.item_links	Display link buttons with each item. Sequence of sequences 
+								with (name,url,[arg0,arg1,...]). First argument to the url is 
+								the item primary key and is automatically provided
+{% endcomment %}
+
+
+{% if attributes.text %}
+	{% include "crud/text_widget.html" with text=attributes.text %}
+{% endif %}
+
+{% if attributes.links %}
+	{% include "crud/widget/links.html" with links=attributes.links %}
+{% endif %}
+
+
+{% if object_list %}
+
+	{% if attributes.class %}
+		<table class="{{ attributes.class }}">
+	{% else %}
+		<table class="table table-striped table-condensed text-center">
+	{% endif %}
+	
+	    <thead>
+	    	<tr>
+		    {% for name,value in object_list.0|field_titles_and_values:attributes %}
+	            <th class="text-center">{{ name|capfirst }}</th>
+	    	{% endfor %}
+	        {% if attributes.item_links %}<th></th>{% endif %}
+			</tr>
+		</thead>	
+	
+		<tbody>
+		    {% for object in object_list %}
+			    <tr>
+			        {% for name,value in object|field_titles_and_values:attributes %}
+		        		<td>
+		        			{% include value_widget %}
+						</td>
+					{% endfor %}
+		
+		            {% if attributes.item_links %}
+		            	<td>
+							{% for lnk in attributes.item_links %}
+								<a href="{% url lnk.url object.pk %}" {% if lnk.class %}class="{{ lnk.class }}"{% endif %}>
+									{{ lnk.label }}
+								</a>
+							{% endfor %}
+						</td>
+					{% endif %}
+				</tr>
+			{% endfor %}
+		</tbody>
+		
+	</table>
+
+{% endif %}
+    
+	

@@ -1,0 +1,48 @@
+{% load bootstrap3 %}
+
+{% comment %}
+	Render object list as collapsible panels
+	
+	Parameters:
+		object_list		Collection of objects to render inside the panels (e.g. queryset or list)
+		
+		attributes.text 		Display a paragraph of text (usually instructions and help)
+		
+		attributes.links		Display link buttons above list. Sequence of sequences with 
+								(name,url,[arg0,arg1,...])
+		
+		Each item in the object_list can then have the following parameters:
+			label			name of child object to display in panel title bar
+			widget			widget for rendering children objects inside panel
+			object_list		passed to widget as 'object_list'
+			attributes		passed to widget as 'attributes'
+
+{% endcomment %}
+
+
+{% if attributes.text %}
+	{% include "crud/text_widget.html" with text=attributes.text %}
+{% endif %}
+
+{% if attributes.links %}
+	{% include "crud/links_widget.html" with links=attributes.links %}
+{% endif %}
+
+
+<div class="panel panel-default">
+	{% for panel in object_list %}
+  		<div class="panel-heading">
+      		<h4 class="panel-title">
+        		<a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ panel.label|slugify }}">
+      				{{ panel.label }}
+        		</a>
+      		</h4>
+    	</div>
+
+	    <div id="collapse_{{ panel.label|slugify }}" class="panel-collapse collapse">
+	    	<div class="panel-body">
+				{% include panel.widget with object_list=panel.object_list attributes=panel.attributes %}	    
+	      	</div>
+	    </div>
+	{% endfor %}
+</div>		

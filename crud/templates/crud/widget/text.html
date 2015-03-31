@@ -1,0 +1,16 @@
+{% load bootstrap3 %}
+
+{% comment %}
+	Display description text
+	
+	Parameters:
+		text				Text to display
+		attributes.class	Class to use for text. Empty by default
+{% endcomment %}
+
+<div class="{% if attributes.class %}{{ attributes.class }}{% endif %}">
+
+	{{ text }}
+	
+</div>
+

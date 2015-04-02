@@ -12,7 +12,11 @@ from django.utils.safestring import mark_safe
 from django.contrib import messages
 from django.http import  Http404
 
-from main.settings import CRUD_SETTINGS
+try:
+    from django.conf import settings
+except ImportError as err:
+    raise ImportError("Django project settings must define CRUD_SETTINGS")
+
 
 # TODO: Edit, add and delete buttons are visible and active even if user has no modification/deletion rights to a model. Make these buttons sensitive to the setting
 
@@ -98,7 +102,7 @@ def _std_context(self,context,default_title):
     
     if self.attributes: context['attributes'] = self.attributes
 
-    context['settings'] = CRUD_SETTINGS
+    context['settings'] = settings.CRUD_SETTINGS
     
     return context
     

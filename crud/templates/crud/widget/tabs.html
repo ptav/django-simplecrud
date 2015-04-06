@@ -1,0 +1,52 @@
+{% load bootstrap3 %}
+
+{% comment %}
+	Render object list as tabs
+	
+	Parameters:
+		object_list			Collection of objects to render inside each tab (e.g. queryset or list)
+		
+		attributes.text 	Display a paragraph of text (usually instructions and help)
+		
+		attributes.links	Display link buttons above list. Sequence of sequences with 
+							(name,url,[arg0,arg1,...])
+		
+		Each item in the object_list can then have the following parameters:
+			label			name of child object to display in panel title bar
+			widget			widget for rendering children objects inside panel
+			object_list		passed to widget as 'object_list'
+			attributes		passed to widget as 'attributes'
+
+{% endcomment %}
+
+
+{% if attributes.text %}
+	{% include "crud/widget/text.html" with text=attributes.text %}
+{% endif %}
+
+{% if attributes.links %}
+	{% include "crud/widget/links.html" with links=attributes.links %}
+{% endif %}
+
+
+<div role="tabpanel">
+
+	<ul class="nav nav-tabs" role="tablist">
+		{% for panel in object_list %}  			
+			<li role="presentation" {% if forloop.first %}class="active"{% endif %}>
+				<a href="#{{ panel.label|slugify }}" aria-controls="{{ panel.label|slugify }}" role="tab" data-toggle="tab">
+					{{ panel.label }}
+				</a>
+			</li>
+		{% endfor %}
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+		{% for panel in object_list %}
+			<div role="tabpanel" class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ panel.label|slugify }}">
+				{% include panel.widget with object_list=panel.object_list attributes=panel.attributes %}	    
+			</div>
+		{% endfor %}
+	</div>
+</div>

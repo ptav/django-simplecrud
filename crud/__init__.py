@@ -3,14 +3,13 @@ from __future__ import unicode_literals
 import vanilla
 
 from django.conf.urls import patterns,url
-from django.core.exceptions import ImproperlyConfigured,ObjectDoesNotExist,ViewDoesNotExist
+from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from django.forms.models import modelformset_factory,inlineformset_factory
-from django.shortcuts import redirect,get_object_or_404
+from django.forms.models import modelformset_factory
+from django.shortcuts import redirect
 from django.utils.safestring import mark_safe
 from django.contrib import messages
-from django.http import  Http404
 
 try:
     from django.conf import settings
@@ -106,7 +105,7 @@ def _std_context(self,context,default_title):
     
     return context
     
-    
+
 
 
 class CreateView(vanilla.CreateView):
@@ -125,7 +124,7 @@ class CreateView(vanilla.CreateView):
     
     def get_context_data(self, **kwargs):
         context = super(CreateView,self).get_context_data(**kwargs)
-        context = _std_context(self,context,_('New ' + self.model._meta.verbose_name.title()))
+        context = _std_context(self,context,_('New ' + unicode(self.model._meta.verbose_name)))
         return context
     
     
@@ -156,7 +155,7 @@ class UpdateView(vanilla.UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super(UpdateView,self).get_context_data(**kwargs)
-        context = _std_context(self,context,_('Update ' + self.model._meta.verbose_name.title()))        
+        context = _std_context(self,context,_('Update ' + unicode(self.model._meta.verbose_name)))        
         return context
 
     
@@ -181,7 +180,7 @@ class DeleteView(vanilla.DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(DeleteView,self).get_context_data(**kwargs)
-        context = _std_context(self,context,_('Delete ' + self.model._meta.verbose_name.title()))        
+        context = _std_context(self,context,_('Delete ' + unicode(self.model._meta.verbose_name)))        
         return context
 
 
@@ -218,7 +217,7 @@ class ListView(vanilla.ListView):
       
     def get_context_data(self, **kwargs):
         context = super(ListView,self).get_context_data(**kwargs)
-        context = _std_context(self,context,_(self.model._meta.verbose_name.title() + " List"))    
+        context = _std_context(self,context,_('List ' + unicode(self.model._meta.verbose_name_plural)))    
         context['value_widget'] = self.value_widget
         
         if 'attributes' not in context:
@@ -294,7 +293,7 @@ class FormsetView(vanilla.CreateView):
 
     def get_context_data(self,form,**kwargs):
         context = super(FormsetView,self).get_context_data(**kwargs)
-        context = _std_context(self,context,_('Edit ' + self.model._meta.verbose_name.title()))
+        context = _std_context(self,context,_('Edit ' + unicode(self.model._meta.verbose_name_plural)))
         context['formset'] = self.get_form(queryset = self.get_object_list(),initial=self.get_initial())        
         return context
     

@@ -16,8 +16,14 @@ Usage
 1. Add `'crud'` to `INSTALLED_APPS`
 
 2. Define CRUD_SETTINGS in your Django project `settings.py` file. The variable 
-is a dictionary that sets some parameters for the navbar and footer of the 
-web pages generated: For example:
+is a dictionary that sets certain  parameters for the navbar and footer of the 
+web pages generated: 
+
+	`navbar_logo`	is a HTML safe string detailing the logo to use in the navbar
+	`navbar_menu`	is also an HTML safe string detailing the Bootstrap3 navbar menu options
+	`copyright`		a message added to the footer
+
+	For example:
 
 	```python
 	CRUD_SETTINGS = {
@@ -68,5 +74,5 @@ For example:
 4. Each view accepts a series of options that customise their behaviour. Until
 the documentation is expanded, please inspect the code for instructions. The 
 default behaviour of the views will be a good guide to how these can be changed 
-further information.
+until better documentation becomes available.
 

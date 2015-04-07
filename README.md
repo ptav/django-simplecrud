@@ -19,51 +19,51 @@ Usage
 is a dictionary that sets some parameters for the navbar and footer of the 
 web pages generated: For example:
 
-```python
-CRUD_SETTINGS = {
-    'navbar_logo':  '<b><i>my</i>Logo</b>',
-    'navbar_menu':  '<li class="active"><a href="/">Home</a></li>',
-    'copyright':    'Copyright (c) 2015',
-}
-```
+	```python
+	CRUD_SETTINGS = {
+	    'navbar_logo':  '<b><i>my</i>Logo</b>',
+	    'navbar_menu':  '<li class="active"><a href="/">Home</a></li>',
+	    'copyright':    'Copyright (c) 2015',
+	}
+	```
 
 3. Add the URL patterns to the models you wish to access through the CRUD library.
 For example:
 
-in the main `urls.py`
+	in the main `urls.py`
 
-```python
-urlpatterns = patterns('',
-	...
+	```python
+	urlpatterns = patterns('',
+		...
+		
+	    url(r'^mymodel/', include('mymodel.urls') ),
 	
-    url(r'^mymodel/', include('mymodel.urls') ),
+		...
+	)
+	```
 
-	...
-)
-```
+	Then in `mymodel/urls.py`
 
-Then in `mymodel/urls.py`
+	```python
+	import crud
+	from .models import MyModel
+	
+	url_patters = crud.urls(MyModel)
+	```
+	
+	This will create a series of URLs:
+	
+	```
+	/mymodel/create
+	/mymodel/update
+	/mymodel/delete
+	/mymodel/list
+	/mymodel/formset
+	```
 
-```python
-import crud
-from .models import MyModel
-
-url_patters = crud.urls(MyModel)
-```
-
-This will create a series of URLs:
-
-```python
-/mymodel/create
-/mymodel/update
-/mymodel/delete
-/mymodel/list
-/mymodel/formset
-```
-
-The `urls` function accepts other parameters such as the forms to be used for 
-create and update, queryset for list and formset and redirect URL for succesful
-use of create, update, delete and formset
+	The `urls` function accepts other parameters such as the forms to be 
+	used for create and update, queryset for list and formset and redirect 
+	URL for succesful use of create, update, delete and formset
 
 4. Each view accepts a series of options that customise their behaviour. Until
 the documentation is expanded, please inspect the code for instructions. The 

@@ -115,8 +115,8 @@ class CreateView(vanilla.CreateView):
     Note: get_form() adds request to the form kwargs
     """
     
-    template_name = 'crud/container.html'
-    widget = 'crud/widget/form.html'     
+    template_name = 'simplecrud/container.html'
+    widget = 'simplecrud/widget/form.html'     
     template_title = None
     template_subtitle = None
     attributes = None
@@ -146,8 +146,8 @@ class UpdateView(vanilla.UpdateView):
     Note: get_form() adds request to the form kwargs
     """
 
-    template_name = 'crud/container.html'
-    widget = 'crud/widget/form.html'     
+    template_name = 'simplecrud/container.html'
+    widget = 'simplecrud/widget/form.html'     
     template_title = None
     template_subtitle = None
     attributes = None
@@ -171,8 +171,8 @@ class UpdateView(vanilla.UpdateView):
     
         
 class DeleteView(vanilla.DeleteView):
-    template_name = 'crud/container.html'
-    widget = 'crud/widget/delete.html'     
+    template_name = 'simplecrud/container.html'
+    widget = 'simplecrud/widget/delete.html'     
     template_title = None
     template_subtitle = None
     attributes = None
@@ -198,9 +198,9 @@ class ListView(vanilla.ListView):
     object_list = None # collection of objects (e.g. queryset or list)
     attributes = None
 
-    template_name = 'crud/container.html'
-    widget = 'crud/widget/table.html'
-    value_widget = 'crud/widget/value.html'
+    template_name = 'simplecrud/container.html'
+    widget = 'simplecrud/widget/table.html'
+    value_widget = 'simplecrud/widget/value.html'
     
     fail_if_empty = True # Raise ImproperlyConfigured if list is empty, otherwise show empty page
     
@@ -258,8 +258,8 @@ class FormsetView(vanilla.CreateView):
     template_subtitle = None
     attributes = None
     
-    template_name = 'crud/container.html'
-    widget = 'crud/widget/formset.html'
+    template_name = 'simplecrud/container.html'
+    widget = 'simplecrud/widget/formset.html'
     
     fail_if_empty = True # Raise ImproperlyConfigured if list is empty, otherwise show empty page
     

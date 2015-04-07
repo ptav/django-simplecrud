@@ -1,1 +1,3 @@
-recursive-include crud *.html
+include README.md
+include LICENSE
+recursive-include simplecrud/templates *

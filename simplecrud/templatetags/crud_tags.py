@@ -1,6 +1,6 @@
 from django import template
 from django.db import models
-from crud.format import format_value,auto_precision
+from simplecrud.format import format_value,auto_precision
 
 
 register = template.Library()

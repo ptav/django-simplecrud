@@ -13,7 +13,7 @@ From the top directory of django-crud, run `setup.py install`
 Usage
 -----
 
-1. Add `crud` to `INSTALLED_APPS`
+1. Add `'crud'` to `INSTALLED_APPS`
 
 2. Define CRUD_SETTINGS in your Django project `settings.py` file. The variable 
 is a dictionary that sets some parameters for the navbar and footer of the 

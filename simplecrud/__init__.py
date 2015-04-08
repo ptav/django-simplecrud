@@ -93,8 +93,9 @@ def urls(model,form_class=None,redirect=None,object_list=None,fail_if_empty=True
 
 
 
-def _std_context(self,context,default_title):
+def _std_context(self,context,default_title=None):
     context['template_title'] = self.template_title or default_title
+        
     if self.template_subtitle: context['template_subtitle'] = self.template_subtitle
         
     context['widget'] = self.widget
@@ -105,6 +106,26 @@ def _std_context(self,context,default_title):
     
     return context
     
+
+
+
+class TemplateView(vanilla.TemplateView):
+    """
+    Implementation of the standard TemplateView with support for the simplecrud header and footer
+    """
+    
+    template_name = None
+    widget = None     
+    template_title = None
+    template_subtitle = None
+    attributes = None
+
+    
+    def get_context_data(self, **kwargs):
+        context = super(TemplateView,self).get_context_data(**kwargs)
+        context = _std_context(self,context)
+        return context
+
 
 
 

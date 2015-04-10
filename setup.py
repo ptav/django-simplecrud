@@ -16,7 +16,7 @@ setup(
     packages=find_packages(),
     
     include_package_data=True,
-    zip_save=False,
+    zip_safe=False,
     
     install_requires=[
         "Django >= 1.4.0",

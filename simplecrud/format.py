@@ -1,5 +1,3 @@
-import numpy
-
 """
 Number formatting utilities
 
@@ -21,6 +19,8 @@ Styles:
 For example the string 'm2' would convert the number 12,345,678 into 
 the string "12.36m"
 """
+
+import math
 
 # Format constants
 NUMBER = 'n'
@@ -89,8 +89,8 @@ def format_value(value,number_format):
 
 def auto_number_format(data):
     top = bot = data
-    while isinstance(top,(list,tuple,numpy.ndarray)): top = max(top)
-    while isinstance(bot,(list,tuple,numpy.ndarray)): bot = min(bot)
+    while isinstance(top,(list,tuple)): top = max(top)
+    while isinstance(bot,(list,tuple)): bot = min(bot)
     top = abs(top)
     bot = abs(bot)
     
@@ -114,11 +114,11 @@ def auto_number_format(data):
 
     else:
         avg = (top + bot) / 2.
-        prec = 3 - int(numpy.log10(avg))
+        prec = 3 - int(math.log10(avg))
         return "f{0}".format(prec)      
 
 
 
 def auto_precision(value):
     """Return a preferred number of decimal points, based on value"""
-    return 3 - int(numpy.log10(abs(value)))
+    return 3 - int(math.log10(abs(value)))

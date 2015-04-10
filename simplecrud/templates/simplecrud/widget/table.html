@@ -9,7 +9,9 @@
 		
 		value_widget			Widget to use for displaying values
 		
-		attributes.class		Table class. Default is "table table-striped table-condensed text-center"
+		attributes.class		Class attribute for wrapping div
+		
+		attributes.table_class	Table class. Default is "table table-striped table-condensed text-center"
 
 		attributes.text 		Display a paragraph of text (usually instructions and help)
 		
@@ -23,55 +25,53 @@
 
 
 {% if attributes.text %}
-	{% include "crud/text_widget.html" with text=attributes.text %}
+	{% include "simplecrud/text_widget.html" with text=attributes.text %}
 {% endif %}
 
 {% if attributes.links %}
-	{% include "crud/widget/links.html" with links=attributes.links %}
+	{% include "simplecrud/widget/links.html" with links=attributes.links %}
 {% endif %}
 
 
-{% if object_list %}
+<div {% if attributes.class %}class="{{ attributes.class }}"{% endif %}>
 
-	{% if attributes.class %}
-		<table class="{{ attributes.class }}">
-	{% else %}
-		<table class="table table-striped table-condensed text-center">
-	{% endif %}
+	{% if object_list %}
 	
-	    <thead>
-	    	<tr>
-		    {% for name,value in object_list.0|field_titles_and_values:attributes %}
-	            <th class="text-center">{{ name|capfirst }}</th>
-	    	{% endfor %}
-	        {% if attributes.item_links %}<th></th>{% endif %}
-			</tr>
-		</thead>	
-	
-		<tbody>
-		    {% for object in object_list %}
-			    <tr>
-			        {% for name,value in object|field_titles_and_values:attributes %}
-		        		<td>
-		        			{% include value_widget %}
-						</td>
-					{% endfor %}
+		<table class={% if attributes.table_class %}{{ attributes.table_class }}{% else %}"table table-striped table-condensed text-center"{% endif %}>
 		
-		            {% if attributes.item_links %}
-		            	<td>
-							{% for lnk in attributes.item_links %}
-								<a href="{% url lnk.url object.pk %}" {% if lnk.class %}class="{{ lnk.class }}"{% endif %}>
-									{{ lnk.label }}
-								</a>
-							{% endfor %}
-						</td>
-					{% endif %}
+		    <thead>
+		    	<tr>
+			    {% for name,value in object_list.0|field_titles_and_values:attributes %}
+		            <th class="text-center">{{ name|capfirst }}</th>
+		    	{% endfor %}
+		        {% if attributes.item_links %}<th></th>{% endif %}
 				</tr>
-			{% endfor %}
-		</tbody>
+			</thead>	
 		
-	</table>
-
-{% endif %}
-    
+			<tbody>
+			    {% for object in object_list %}
+				    <tr>
+				        {% for name,value in object|field_titles_and_values:attributes %}
+			        		<td>
+			        			{% include value_widget %}
+							</td>
+						{% endfor %}
+			
+			            {% if attributes.item_links %}
+			            	<td>
+								{% for lnk in attributes.item_links %}
+									<a href="{% url lnk.url object.pk %}" {% if lnk.class %}class="{{ lnk.class }}"{% endif %}>
+										{{ lnk.label }}
+									</a>
+								{% endfor %}
+							</td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>
+			
+		</table>
 	
+	{% endif %}
+    
+</div>	

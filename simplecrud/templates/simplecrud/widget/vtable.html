@@ -9,7 +9,9 @@
 		
 		value_widget			Widget to use for displaying values
 		
-		attributes.class		Table class. Default is "table table-striped table-condensed text-center"
+		attributes.class		Class attribute for wrapping div
+		
+		attributes.table_class	Table class. Default is "table table-striped"
 
 		attributes.text 		Display a paragraph of text (usually instructions and help)
 		
@@ -22,34 +24,36 @@
 {% endcomment %}
 
 
-{% if attributes.text %}
-	{% include "crud/text_widget.html" with text=attributes.text %}
-{% endif %}
+<div {% if attributes.class %}class="{{ attributes.class }}"{% endif %}>
 
-{% if attributes.links %}
-	{% include "crud/widget/links.html" with links=attributes.links %}
-{% endif %}
-
-
-{% for object in object_list %}
+	{% if attributes.text %}
+		{% include "simplecrud/text_widget.html" with text=attributes.text %}
+	{% endif %}
 	
-	{% for lnk in attributes.item_links %}
-		<div>
-			<a href="{% url lnk.url object.pk %}" {% if lnk.class %}class="{{ lnk.class }}"{% endif %}>
-				{{ lnk.label }}
-			</a>
-		</div>
-	{% endfor %}
-
-	<table class={% if attributes.class %}"{{ attributes.class }}"{% else %}"table table-striped table-condensed text-center"{% endif %}>
-		{% for name,value in object|field_titles_and_values:attributes %}
-		    <tr>
-	            <td class="text-right">{{ name|capfirst }}</td>
-	        	<td class="text-left">{% include value_widget %}</td>
-			</tr>
+	{% if attributes.links %}
+		{% include "simplecrud/widget/links.html" with links=attributes.links %}
+	{% endif %}
+	
+	
+	{% for object in object_list %}
+		
+		{% for lnk in attributes.item_links %}
+			<div>
+				<a href="{% url lnk.url object.pk %}" {% if lnk.class %}class="{{ lnk.class }}"{% endif %}>
+					{{ lnk.label }}
+				</a>
+			</div>
 		{% endfor %}
-	</table>
 	
-{% endfor %}
-
+		<table class={% if attributes.table_class %}"{{ attributes.table_class }}"{% else %}"table table-striped"{% endif %}>
+			{% for name,value in object|field_titles_and_values:attributes %}
+			    <tr>
+		            <td class="text-right">{{ name|capfirst }}</td>
+		        	<td class="text-left">{% include value_widget %}</td>
+				</tr>
+			{% endfor %}
+		</table>
+		
+	{% endfor %}
 	
+</div>

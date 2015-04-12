@@ -4,7 +4,7 @@ from setuptools import setup,find_packages
 setup(
     name='django-simplecrud',
 
-    version='1.0b6',
+    version='1.0b7',
     description='CRUD framework for Django',
     long_description="A simple Create-Review-Update-Delete framework for Django. Ready to use out-of-the-box: includes both views and templates",
     keywords='django, crud, views, templates',
@@ -19,7 +19,7 @@ setup(
     zip_safe=False,
     
     install_requires=[
-        "Django >= 1.4.0",
+        #"Django >= 1.4.0",
         "six",
     ],
       

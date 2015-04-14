@@ -4,13 +4,13 @@
 	Display description text
 	
 	Parameters:
-		text				Text to display
-		attributes.class	Class to use for text. Empty by default
+		object_list			List of text paragraphs
+		attributes.class	Class of encapsulating div. Empty by default
 {% endcomment %}
 
 <div class="{% if attributes.class %}{{ attributes.class }}{% endif %}">
-
-	{{ attributes.text }}
-	
+    {% for obj in object_list %}
+        <p>{{ obj.text }}</p>
+    {% endfor %}	
 </div>
 

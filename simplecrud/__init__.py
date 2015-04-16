@@ -114,7 +114,7 @@ class TemplateView(vanilla.TemplateView):
     Implementation of the standard TemplateView with support for the simplecrud header and footer
     """
     
-    template_name = None
+    template_name = 'simplecrud/container.html'
     widget = None     
     template_title = None
     template_subtitle = None

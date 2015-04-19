@@ -102,7 +102,7 @@ def _std_context(self,context,default_title=None):
     
     if self.attributes: context['attributes'] = self.attributes
 
-    context['settings'] = settings.CRUD_SETTINGS
+    context['simplecrud'] = settings.CRUD_SETTINGS
     
     return context
     

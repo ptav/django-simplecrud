@@ -7,14 +7,19 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">{{ settings.navbar_logo|safe }}</a>
+			
+			<a class="navbar-brand" href="/">{% include 'simplecrud/logo.html' %}</a>
+		
 		</div>
 		
 		<div class="navbar-collapse collapse" id="topnavbar-collapse">
-			<ul class="nav navbar-nav">
-				{{ settings.navbar_menu|safe }}
-			</ul>
 		
+			{% if simplecrud.navbar_menu %}
+    			<ul class="nav navbar-nav">
+                    {{ simplecrud.navbar_menu }}
+    			</ul>
+            {% endif %}
+            		
 			<ul class="nav navbar-nav navbar-right">
 				{% if user.is_authenticated %}
 					<li class="dropdown">
@@ -23,6 +28,11 @@
 							<li><a href="{% url 'account_logout' %}">Logout</a></li>
 						</ul>
 					</li>
+
+                    {% if user.is_staff %}
+                        <li><a href="{% url 'admin:index' %}"><span class="glyphicon glyphicon-cog"></span></a></li>
+                    {% endif %}
+                    
 				{% else %}
 			    	<li><a href="{% url 'account_login' %}">Login</a></li>
 			    	<li><a href="{% url 'account_signup' %}">Signup</a></li>

@@ -5,7 +5,10 @@ Create-Review-Update-Delete view and template framework for Django
 
 ## Installation
 
-From the top directory of django-crud, run `setup.py install` 
+Run `pip install django-simplecrud` for installing the latest stable release
+
+You can also install a local copy by running `setup.py install` at the top
+directory of django-simplecrud
 
 
 ## Usage

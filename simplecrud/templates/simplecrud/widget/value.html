@@ -1,13 +1,18 @@
-{% load bootstrap3 %}
 {% load crud_tags %}
 
-{% if value == "ICON:OK" %}
-	{% bootstrap_icon "ok" %}
 
-{% elif value == "ICON:REMOVE" %}
-	{% bootstrap_icon "remove" %}
+{% comment %}
+    Render single value or sequence (by recursion
+    
+    Parameters:
+        value                   Object to display        
+        value_widget            Widget to use for displaying values (self-refering generally)
+        
+{% endcomment %}
 
-{% elif value|is_sequence %}
+
+
+{% if value|is_sequence %}
 	<table class="table table-striped table-bordered table-condensed text-center small">
 	    {% for row in value %}
 		    <tr>

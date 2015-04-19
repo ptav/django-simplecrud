@@ -1,6 +1,9 @@
 from django import template
 from django.db import models
+from django.utils.safestring import mark_safe
+
 from simplecrud.format import format_value,auto_precision
+
 
 
 register = template.Library()
@@ -15,6 +18,8 @@ def fields_from_model(model):
 
 @register.filter(name='field_titles_and_values')
 def field_titles_and_values(model,options=None):
+    show_all = False
+    
     if options:
         if 'include_fields' in options:
             includes = options['include_fields']
@@ -26,11 +31,18 @@ def field_titles_and_values(model,options=None):
             excludes = options['exclude_fields']
             field_list = [f for f in field_list if f.name not in excludes]
 
+        show_all = options['show_all'] if 'show_all' in options else False        
+        bool_as_icon = options['bool_as_icon'] if 'bool_as_icon' in options else True
+        
     else:
         field_list = model._meta.fields
         
-    out = [(field.verbose_name,_field_value(model,field)) for field in field_list]
-
+    out = [
+        (field.verbose_name,_field_value(model,field,bool_as_icon)) 
+        for field in field_list
+        if show_all or _field_value(model,field,bool_as_icon)
+    ]
+    
     return out
 
 
@@ -65,12 +77,12 @@ def is_sequence(value):
 
             
 
-def _field_value(model,field):
+def _field_value(model,field,bool_as_icon):
     v = getattr(model,field.name)
     
-    if isinstance(field,models.BooleanField):
-        if v: return "ICON:OK"
-        else: return "ICON:REMOVE"
+    if isinstance(field,models.BooleanField) and bool_as_icon:
+        if v: return mark_safe('<span class="glyphicon glyphicon-ok"></span>') #"ICON:OK"
+        else: return mark_safe('<span class="glyphicon glyphicon-remove"></span>') #"ICON:REMOVE"
 
     if hasattr(field,'choices') and field.choices:
         return dict(field.choices).get(v,'')

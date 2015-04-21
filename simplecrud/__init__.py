@@ -10,14 +10,12 @@ from django.forms.models import modelformset_factory
 from django.shortcuts import redirect
 from django.utils.safestring import mark_safe
 from django.contrib import messages
-
-try:
-    from django.conf import settings
-except ImportError as err:
-    raise ImportError("Django project settings must define CRUD_SETTINGS")
+from django.http import Http404
+from django.conf import settings
 
 
 # TODO: Edit, add and delete buttons are visible and active even if user has no modification/deletion rights to a model. Make these buttons sensitive to the setting
+# TODO: Raise error is settings.CRUD_SETTINGS doesn't exist
 
 
 """
@@ -108,8 +106,18 @@ def _std_context(self,context,default_title=None):
     
 
 
+class PermissionMixin(object):
+    def check_permission(self,request,*args,**kwargs):
+        return True
+    
+    def dispatch(self,request,*args,**kwargs):
+        if not self.check_permission(request,*args,**kwargs): raise Http404
+        return super(PermissionMixin,self).dispatch(request,*args,**kwargs)
 
-class TemplateView(vanilla.TemplateView):
+
+
+
+class TemplateView(PermissionMixin,vanilla.TemplateView):
     """
     Implementation of the standard TemplateView with support for the simplecrud header and footer
     """
@@ -120,7 +128,6 @@ class TemplateView(vanilla.TemplateView):
     template_subtitle = None
     attributes = None
 
-    
     def get_context_data(self, **kwargs):
         context = super(TemplateView,self).get_context_data(**kwargs)
         context = _std_context(self,context)
@@ -129,7 +136,7 @@ class TemplateView(vanilla.TemplateView):
 
 
 
-class CreateView(vanilla.CreateView):
+class CreateView(PermissionMixin,vanilla.CreateView):
     """
     Create view for generic model, based on django-vanilla-views
     
@@ -160,7 +167,7 @@ class CreateView(vanilla.CreateView):
 
 
 
-class UpdateView(vanilla.UpdateView):
+class UpdateView(PermissionMixin,vanilla.UpdateView):
     """
     Update view for generic model, based on django-vanilla-views
     
@@ -191,7 +198,7 @@ class UpdateView(vanilla.UpdateView):
     
     
         
-class DeleteView(vanilla.DeleteView):
+class DeleteView(PermissionMixin,vanilla.DeleteView):
     template_name = 'simplecrud/container.html'
     widget = 'simplecrud/widget/delete.html'     
     template_title = None
@@ -207,7 +214,7 @@ class DeleteView(vanilla.DeleteView):
 
 
 
-class ListView(vanilla.ListView):
+class ListView(PermissionMixin,vanilla.ListView):
     """
     List model view
 
@@ -264,7 +271,7 @@ class ListView(vanilla.ListView):
     
 
 
-class FormsetView(vanilla.CreateView):
+class FormsetView(PermissionMixin,vanilla.CreateView):
     """
     Class view for a generic formset, based on django-vanilla-views
 

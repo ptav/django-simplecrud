@@ -24,17 +24,16 @@
 {% endcomment %}
 
 
-{% if attributes.text %}
-	{% include "simplecrud/text_widget.html" with text=attributes.text %}
-{% endif %}
-
-{% if attributes.links %}
-	{% include "simplecrud/widget/links.html" with links=attributes.links %}
-{% endif %}
-
-
 <div {% if attributes.class %}class="{{ attributes.class }}"{% endif %}>
 
+    {% if attributes.text %}
+        {% include "simplecrud/widget/text.html" with object_list=attributes.text %}
+    {% endif %}
+    
+    {% if attributes.links %}
+        {% include "simplecrud/widget/links.html" with object_list=attributes.links %}
+    {% endif %}
+    
 	{% if object_list %}
 	
 		<table class={% if attributes.table_class %}{{ attributes.table_class }}{% else %}"table table-striped table-condensed text-center"{% endif %}>

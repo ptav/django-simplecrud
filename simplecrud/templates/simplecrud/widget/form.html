@@ -1,27 +1,43 @@
 {% load bootstrap3 %}
 
-{% if attributes.text %}
-	{% include "simplecrud/text_widget.html" with text=attributes.text %}
-{% endif %}
-
-{% if attributes.links %}
-	{% include "simplecrud/links_widget.html" with links=attributes.links %}
-{% endif %}
-
-<form method="post" role="form" class="{% if attributes.class %}{{ attributes.class }}{% else %}form-horizontal{% endif %}">
-	{% csrf_token %}
-
-    {% if next %}
-    	<input type="hidden" name="next" value="{{ next }}" />
-    {% endif %}
-
-    {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-    {% endif %}
-      
-    {% bootstrap_form form layout='horizontal' %}
+{% comment %}
+    Display formset
     
-	{% buttons submit="Save" layout='horizontal' %}
-		<button type="button" class="btn btn-default" onclick="history.back(-1)">Cancel</button>	
-	{% endbuttons %}
-</form>
+    Parameters:
+        attributes.class        Class for wrapping section (default is empty)
+
+        attributes.form_class   Form class. Default is 'form'
+
+        attributes.text         Display a paragraph of text (usually instructions and help)
+        
+        attributes.links        Display link buttons above list. Sequence of sequences with 
+                                (name,url,[arg0,arg1,...])
+        
+{% endcomment %}
+
+
+<div {% if attributes.class %}class="{{ attributes.class }}"{% endif %}>
+    
+    {% if attributes.text %}
+    	{% include "simplecrud/widget/text.html" with object_list=attributes.text %}
+    {% endif %}
+    
+    {% if attributes.links %}
+    	{% include "simplecrud/widget/links.html" with object_list=attributes.links %}
+    {% endif %}
+    
+    <form method="post" role="form" class="{% if attributes.form_class %}{{ attributes.form_class }}{% else %}form-horizontal{% endif %}">
+    	{% csrf_token %}
+    
+        {% if next %}
+        	<input type="hidden" name="next" value="{{ next }}" />
+        {% endif %}
+    
+        {% bootstrap_form form layout='horizontal' %}
+        
+    	{% buttons submit="Save" layout='horizontal' %}
+    		<button type="button" class="btn btn-default" onclick="history.back(-1)">Cancel</button>	
+    	{% endbuttons %}
+    </form>
+
+</div>

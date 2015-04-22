@@ -8,9 +8,11 @@
 		attributes.class	Class of encapsulating div. Empty by default
 {% endcomment %}
 
-<div class="{% if attributes.class %}{{ attributes.class }}{% endif %}">
+<div {% if attributes.class %}class="{{ attributes.class }}"{% endif %}>
+
     {% for obj in object_list %}
-        <p>{{ obj.text }}</p>
+        <p>{{ obj }}</p>
     {% endfor %}	
+
 </div>
 

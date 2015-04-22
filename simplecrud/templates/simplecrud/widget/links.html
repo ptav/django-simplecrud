@@ -5,13 +5,13 @@
 	Display URL links
 	
 	Parameters:
-		links	A sequence of dicts with: label,url
+		object_list	A sequence of dicts with: label,url
 		
 
 {% endcomment %}
 
 <ul class="nav nav-pills">
-	{% for lnk in links %}
+	{% for lnk in object_list %}
 		<li>
 			<a href="{{ lnk.url }}" {% if lnk.class %}class="{{ lnk.class }}"{% endif %}>{{ lnk.label }}</a>
 		</li>

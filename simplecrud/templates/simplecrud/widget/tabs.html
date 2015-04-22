@@ -20,33 +20,37 @@
 {% endcomment %}
 
 
-{% if attributes.text %}
-	{% include "crud/widget/text.html" with text=attributes.text %}
-{% endif %}
+<div {% if attributes.class %}class="{{ attributes.class }}"{% endif %}>
+    
+    {% if attributes.text %}
+        {% include "simplecrud/widget/text.html" with object_list=attributes.text %}
+    {% endif %}
+    
+    {% if attributes.links %}
+        {% include "simplecrud/widget/links.html" with object_list=attributes.links %}
+    {% endif %}
+    
+    <div role="tabpanel">
+    
+    	<ul class="nav nav-tabs" role="tablist">
+    		{% for panel in object_list %}  			
+    			<li role="presentation" {% if forloop.first %}class="active"{% endif %}>
+    				<a href="#{{ panel.label|slugify }}" aria-controls="{{ panel.label|slugify }}" role="tab" data-toggle="tab">
+    					{{ panel.label }}
+    				</a>
+    			</li>
+    		{% endfor %}
+    	</ul>
+    
+    	<!-- Tab panes -->
+    	<div class="tab-content">
+    		{% for panel in object_list %}
+    			<div role="tabpanel" class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ panel.label|slugify }}">
+    				{% include panel.widget with object_list=panel.object_list attributes=panel.attributes %}	    
+    			</div>
+    		{% endfor %}
+    	</div>
+    
+    </div>
 
-{% if attributes.links %}
-	{% include "crud/widget/links.html" with links=attributes.links %}
-{% endif %}
-
-
-<div role="tabpanel">
-
-	<ul class="nav nav-tabs" role="tablist">
-		{% for panel in object_list %}  			
-			<li role="presentation" {% if forloop.first %}class="active"{% endif %}>
-				<a href="#{{ panel.label|slugify }}" aria-controls="{{ panel.label|slugify }}" role="tab" data-toggle="tab">
-					{{ panel.label }}
-				</a>
-			</li>
-		{% endfor %}
-	</ul>
-
-	<!-- Tab panes -->
-	<div class="tab-content">
-		{% for panel in object_list %}
-			<div role="tabpanel" class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ panel.label|slugify }}">
-				{% include panel.widget with object_list=panel.object_list attributes=panel.attributes %}	    
-			</div>
-		{% endfor %}
-	</div>
 </div>

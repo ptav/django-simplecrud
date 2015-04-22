@@ -22,27 +22,17 @@
 
 {% block bootstrap3_content %}
 
-	{% if header_template %}
-		{% include header_template %}	
-	{% else %}
-		{% include 'simplecrud/header.html' %}	
-	{% endif %}
+	{% include 'simplecrud/header.html' %}	
 	
+	<noscript>
+		This page requires Javascript to look its best. PLease enable it in your browser.<br> 
+		<a href="{% url 'contact_us' %}">Contact us</a> if you'd like more information.
+	</noscript>
+
     <div class="container">
-
-		<noscript>
-			This page requires Javascript to look its best. PLease enable it in your browser.<br> 
-			<a href="{% url 'contact_us' %}">Contact us</a> if you'd like more information.
-		</noscript>
-	
-		{% block content %}{% endblock %}
-
-	</div>
-	
-	{% if header_template %}
-		{% include header_template %}	
-	{% else %}
-		{% include 'simplecrud/footer.html' %}
-	{% endif %}
+        {% block content %}{% endblock %}
+    </div>
+    
+	{% include 'simplecrud/footer.html' %}
 
 {% endblock %}

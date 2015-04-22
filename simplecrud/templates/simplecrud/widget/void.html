@@ -1,3 +1,8 @@
 {% comment %}
 	Empty widget
+
+    attributes.class    Wrapping div class (default is empty)
 {% endcomment %}
+
+<div {% if attributes.class %}class="{{ attributes.class }}"{% endif %}>
+</div>

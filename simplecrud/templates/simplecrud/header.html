@@ -8,17 +8,13 @@
 				<span class="icon-bar"></span>
 			</button>
 			
-			<a class="navbar-brand" href="/">{% include 'simplecrud/logo.html' %}</a>
+			{% include 'simplecrud/logo.html' %}
 		
 		</div>
 		
 		<div class="navbar-collapse collapse" id="topnavbar-collapse">
 		
-			{% if simplecrud.navbar_menu %}
-    			<ul class="nav navbar-nav">
-                    {{ simplecrud.navbar_menu|safe }}
-    			</ul>
-            {% endif %}
+            {% include 'simplecrud/menu.html' %}
             		
 			<ul class="nav navbar-nav navbar-right">
 				{% if user.is_authenticated %}

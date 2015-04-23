@@ -100,7 +100,7 @@ def _std_context(self,context,default_title=None):
     
     if self.attributes: context['attributes'] = self.attributes
 
-    context['simplecrud'] = settings.CRUD_SETTINGS
+    if hasattr(settings,'SIMPLECRUD'): context['simplecrud'] = settings.SIMPLECRUD
     
     return context
     
@@ -113,6 +113,11 @@ class PermissionMixin(object):
     def dispatch(self,request,*args,**kwargs):
         if not self.check_permission(request,*args,**kwargs): raise Http404
         return super(PermissionMixin,self).dispatch(request,*args,**kwargs)
+
+
+
+
+RedirectView = vanilla.RedirectView # vanilla.RedirectView here only for completness
 
 
 

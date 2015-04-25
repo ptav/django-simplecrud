@@ -11,7 +11,7 @@
 <div {% if attributes.class %}class="{{ attributes.class }}"{% endif %}>
 
     {% for obj in object_list %}
-        <p>{{ obj }}</p>
+        <p>{{ obj|safe }}</p>
     {% endfor %}	
 
 </div>

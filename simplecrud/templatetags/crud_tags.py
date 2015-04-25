@@ -5,6 +5,7 @@ from django.utils.safestring import mark_safe
 from simplecrud.format import format_value,auto_precision
 
 
+# TODO: field_titles_and_values misses m2m fields because model._meta._fields ignores those
 
 register = template.Library()
 

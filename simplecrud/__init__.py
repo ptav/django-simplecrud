@@ -92,16 +92,22 @@ def urls(model,form_class=None,redirect=None,object_list=None,fail_if_empty=True
 
 
 def _std_context(self,context,default_title=None):
-    context['template_title'] = self.template_title or default_title
-        
+    if self.template_title is None:
+        context['template_title'] = default_title
+    else:
+        context['template_title'] = self.template_title
+
     if self.template_subtitle: context['template_subtitle'] = self.template_subtitle
         
     context['widget'] = self.widget
     
     if self.attributes: context['attributes'] = self.attributes
 
-    if hasattr(settings,'SIMPLECRUD'): context['simplecrud'] = settings.SIMPLECRUD
-    
+    if hasattr(settings,'SIMPLECRUD'):
+        context['simplecrud'] = settings.SIMPLECRUD
+    else:
+        context['simplecrud'] = {}
+
     return context
     
 
@@ -157,7 +163,8 @@ class CreateView(PermissionMixin,vanilla.CreateView):
     
     def get_context_data(self, **kwargs):
         context = super(CreateView,self).get_context_data(**kwargs)
-        context = _std_context(self,context,_('New ' + unicode(self.model._meta.verbose_name)))
+        model_name = unicode(self.model._meta.verbose_name) if self.model else 'Object'
+        context = _std_context(self,context,_('New ' + model_name))
         return context
     
     
@@ -188,7 +195,8 @@ class UpdateView(PermissionMixin,vanilla.UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super(UpdateView,self).get_context_data(**kwargs)
-        context = _std_context(self,context,_('Update ' + unicode(self.model._meta.verbose_name)))        
+        model_name = unicode(self.model._meta.verbose_name) if self.model else 'Object'
+        context = _std_context(self,context,_('Update ' + model_name))        
         return context
 
     
@@ -213,7 +221,8 @@ class DeleteView(PermissionMixin,vanilla.DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(DeleteView,self).get_context_data(**kwargs)
-        context = _std_context(self,context,_('Delete ' + unicode(self.model._meta.verbose_name)))        
+        model_name = unicode(self.model._meta.verbose_name) if self.model else 'Object'
+        context = _std_context(self,context,_('Delete ' + model_name))        
         return context
 
 
@@ -250,7 +259,9 @@ class ListView(PermissionMixin,vanilla.ListView):
       
     def get_context_data(self, **kwargs):
         context = super(ListView,self).get_context_data(**kwargs)
-        context = _std_context(self,context,_('List ' + unicode(self.model._meta.verbose_name_plural)))    
+        
+        model_name = unicode(self.model._meta.verbose_name_plural) if self.model else 'Objects'
+        context = _std_context(self,context,_('List ' + model_name))    
         context['value_widget'] = self.value_widget
         
         if 'attributes' not in context:

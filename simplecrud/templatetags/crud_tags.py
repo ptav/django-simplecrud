@@ -35,9 +35,11 @@ def field_titles_and_values(model,options=None):
         show_all = options['show_all'] if 'show_all' in options else False        
         bool_as_icon = options['bool_as_icon'] if 'bool_as_icon' in options else True
         
-    else:
+    else: # defaults
         field_list = model._meta.fields
-        
+        bool_as_icon = False
+    
+    
     out = [
         (field.verbose_name,_field_value(model,field,bool_as_icon)) 
         for field in field_list

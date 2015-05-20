@@ -11,7 +11,7 @@
 		
 		attributes.class		Class attribute for wrapping div
 		
-		attributes.table_class	Table class. Default is "table table-striped"
+		attributes.table_class	Table class. Default is "table"
 
         attributes.show_all     If False (default) do not display empty fields
 
@@ -50,7 +50,7 @@
 			</div>
 		{% endfor %}
 	
-		<table class={% if attributes.table_class %}"{{ attributes.table_class }}"{% else %}"table table-striped"{% endif %}>
+		<table class={% if attributes.table_class %}"{{ attributes.table_class }}"{% else %}"table"{% endif %}>
 			{% for name,value in object|field_titles_and_values:attributes %}
 			    <tr>
 		            <td class="text-right">{{ name|capfirst }}</td>

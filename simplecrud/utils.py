@@ -1,9 +1,12 @@
 from __future__ import unicode_literals
 
 #from django.core.exceptions import ImproperlyConfigured
-from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse,reverse_lazy
+from django.conf.urls import patterns,url
 from django.http import  QueryDict,Http404
+from django.utils.safestring import mark_safe
+
+from simplecrud import CreateView,UpdateView,DeleteView,ListView,FormsetView
 
 
 """
@@ -16,6 +19,17 @@ Copyright (c) 2015 Pedro Tavares, All rights reserved
 General utilities used in simplecrud
 
 """
+
+
+"Useful in separating widges in a ListView"
+SEPARATOR_WIDGET = {
+    'widget': 'simplecrud/widget/text.html',
+    'attributes': {
+        'class':'container',
+    },
+}
+
+
 
 
 def render_glyphicon(name):

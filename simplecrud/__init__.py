@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 import vanilla
 
-from django.conf.urls import patterns,url
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -42,6 +41,7 @@ def _std_context(self,context,default_title=None):
 
     if self.template_subtitle: context['template_subtitle'] = self.template_subtitle
         
+    if self.widget is None: raise ImproperlyConfigured("Widget not set in type {}".format(type(self)))
     context['widget'] = self.widget
     
     if self.attributes: context['attributes'] = self.attributes

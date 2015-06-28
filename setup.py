@@ -6,7 +6,7 @@ from setuptools import setup,find_packages
 setup(
     name='django-simplecrud',
 
-    version='1.0b14',
+    version='1.0b15',
     description='CRUD framework for Django',
     long_description="A simple Create-Review-Update-Delete framework for Django. Ready to use out-of-the-box: includes both views and templates",
     keywords='django, crud, views, templates',

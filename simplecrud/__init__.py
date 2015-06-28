@@ -34,63 +34,6 @@ Based on django-vanilla view library
 """
 
 
-def render_glyphicon(name):
-    "Render glyphicon 'name'"
-    return mark_safe('<span class="glyphicon glyphicon-{0}"></span>'.format(name))
-
-
-def urls(model,form_class=None,redirect=None,object_list=None,fail_if_empty=True):
-    """
-    Returns URL patterns for creating, updating and deleting models. Supports lists and formsets as well
-    
-    model          Model class
-    form_class     Form class for use in create, update and formset views (default is None)
-    redirect       Redirection URL for create, update and delete views
-    object_list    Queryset for list and formset
-    fail_if_empty  Raise ImproperlyConfigured exception in formset and list views when object_list is empty
-    """
-    
-    prefix = model.__name__.lower()
-    if not redirect: redirect = reverse_lazy(prefix + '_list')
-    
-    urlpatterns = patterns('',
-        # Create a new record
-        url('^' + prefix + '/create/',
-            CreateView.as_view(model=model,form_class=form_class,success_url=redirect),
-            name = prefix + '_create'
-        ),
-                            
-        # Update record 'pk'
-        url('^' + prefix + '/update/(?P<pk>\d+)/',
-            UpdateView.as_view(model=model,form_class=form_class,success_url=redirect),
-            name = prefix + '_update'
-        ),
-        
-        # Delete record 'pk'
-        url('^' + prefix + '/delete/(?P<pk>\d+)/',
-            DeleteView.as_view(model=model,success_url=redirect),
-            name = prefix + '_delete'
-        ),
-
-        # List records
-        url('^' + prefix + '/list/',
-            ListView.as_view(model=model,object_list=object_list,fail_if_empty=fail_if_empty),
-            name = prefix + '_list'
-        ),
-                            
-        # Edit records using a formset
-        url('^' + prefix + '/formset/',
-            FormsetView.as_view(model=model,form_class=form_class,object_list=object_list,fail_if_empty=fail_if_empty),
-            name = prefix + '_formset'
-        ),
-                            
-    )
-    
-    return urlpatterns
-
-
-
-
 def _std_context(self,context,default_title=None):
     if self.template_title is None:
         context['template_title'] = default_title

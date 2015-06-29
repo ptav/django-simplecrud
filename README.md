@@ -84,11 +84,7 @@ For example:
     }
     ```
     
-    You can then access this in a template. For example:
-    
-    ```
-    {{ simplecrud.message }}
-    ```
+    You can then access this in a template. For example: `{{ simplecrud.message }}`
 
 The following settings have a particular meaning when using SIMPLECRUD:
 
@@ -104,8 +100,7 @@ the `ListView` class is very flexible and allows one to design complex pages
 from within Python. the key step is the `get_object_list` function. Here is a 
 first simple example (more to follow later):
 
-    ```
-    import simplecrud
+    ```import simplecrud
     
     
     class HomeView(simplecrud.ListView):

@@ -80,7 +80,7 @@ For example:
 
 ```python
 SIMPLECRUD = {
-'message': 'My message!',
+    'message': 'My message!',
 }
 ```
     
@@ -100,7 +100,8 @@ the `ListView` class is very flexible and allows one to design complex pages
 from within Python. the key step is the `get_object_list` function. Here is a 
 first simple example (more to follow later):
 
-```import simplecrud
+```python
+import simplecrud
 
 
 class HomeView(simplecrud.ListView):

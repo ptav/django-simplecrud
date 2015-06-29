@@ -76,7 +76,7 @@ You can define SIMPLECRUD in your Django project `settings.py` file. The variabl
 will be passed to simplecrud templates in the context, inside the `simplecrud`
 parameter 
 
-    For example:
+For example:
 
     ```python
     SIMPLECRUD = {
@@ -92,9 +92,9 @@ parameter
 
 The following settings have a particular meaning when using SIMPLECRUD:
 
-    container   Top level class (default is `container`). For example, to switch
-                to a full width container set it this parameter to 
-                `container-fluid`
+container   Top level class (default is `container`). For example, to switch
+            to a full width container set it this parameter to 
+            `container-fluid`.
                 
                 
 

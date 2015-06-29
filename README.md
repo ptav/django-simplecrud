@@ -90,3 +90,99 @@ parameter
     {{ simplecrud.message }}
     ```
 
+The following settings have a particular meaning when using SIMPLECRUD:
+
+    container   Top level class (default is `container`). For example, to switch
+                to a full width container set it this parameter to 
+                `container-fluid`
+                
+                
+
+### ListView
+
+the `ListView` class is very flexible and allows one to design complex pages
+from within Python. the key step is the `get_object_list` function. Here is a 
+first simple example (more to follow later):
+
+    ```
+    import simplecrud
+    
+    
+    class HomeView(simplecrud.ListView):
+        template_title = ''
+        widget = 'simplecrud/widget/list.html'
+        attributes = {
+            'links': None, # removes default model create and edit links
+        }
+        
+        def get_object_list(self):
+            top = {
+                'widget': 'simplecrud/widget/text.html',
+                'object_list': [
+                    '<h1 class="text-center">This is my website</h1><br><br>',
+                    '<a href="#scroll2">',
+                    '<h2 class="text-center">Find out more</h2>',
+                    '</a>',
+                ],   
+                'attributes': {
+                    'class':'jumbotron',
+                },
+            }
+            
+            mid = {
+                'widget': 'simplecrud/widget/text.html',
+                'object_list': [
+                    '<a id="scroll2"></a>',
+                    '<h3 class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<h3>',
+                    '<h3 class="text-center">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<h3>',
+                    '<h3 class="text-center">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.<h3>',
+                ],
+                'attributes': {
+                    'class':'jumbotron',
+                },
+            }
+    
+            bot = {
+                'widget': 'simplecrud/widget/list.html',
+                'object_list': self._block_panels(),
+            }
+    
+            return [top,mid,bot]
+    
+    
+        def _block_panels(self):
+            left = {
+                'widget': 'simplecrud/widget/text.html',
+                'object_list': [
+                    '<h1 class="text-center">First</h1>',
+                    '<p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>',
+                ],   
+                'attributes': {
+                    'class':'col-md-4',
+                },
+            }
+            
+            center = {
+                'widget': 'simplecrud/widget/text.html',
+                'object_list': [
+                    '<h1 class="text-center">Second</h1>',
+                    '<p class="text-center">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>',
+                ],   
+                'attributes': {
+                    'class':'col-md-4',
+                },
+            }
+    
+            right = {
+                'widget': 'simplecrud/widget/text.html',
+                'object_list': [
+                    '<h1 class="text-center">Third</h1>',
+                    '<p class="text-center">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>',
+                ],   
+                'attributes': {
+                    'class':'col-md-4',
+                },
+            }
+    
+            return [left,center,right]
+    ```

@@ -44,7 +44,11 @@ def _std_context(self,context,default_title=None):
     if self.widget is None: raise ImproperlyConfigured("Widget not set in type {}".format(type(self)))
     context['widget'] = self.widget
     
-    if self.attributes: context['attributes'] = self.attributes
+    if hasattr(self,'attributes') and self.attributes is not None:
+        if isinstance(self.attributes,dict):
+            context['attributes'] = self.attributes
+        else:
+            raise ImproperlyConfigured("self.attributes must be a dictionary: {}".format(self.attributes))
 
     if hasattr(settings,'SIMPLECRUD'):
         context['simplecrud'] = settings.SIMPLECRUD
